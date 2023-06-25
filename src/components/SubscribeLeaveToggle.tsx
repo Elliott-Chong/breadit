@@ -1,12 +1,13 @@
 "use client";
 import React, { startTransition } from "react";
-import { Button } from "./ui/Button";
+import { Button, buttonVariants } from "./ui/Button";
 import { useMutation } from "@tanstack/react-query";
 import { subscribeToSubredditPayload } from "@/lib/validators/subreddit";
 import axios, { AxiosError } from "axios";
 import { useCustomToast } from "@/hooks/use-custom-toast";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
   subredditId: string;
@@ -84,13 +85,24 @@ const SubscribeLeaveToggle = ({
   });
 
   return isSubscribed ? (
-    <Button
-      onClick={() => unsubscribe()}
-      isLoading={isUnsubLoading}
-      className="w-full mt-1 mb-4"
-    >
-      Leave community
-    </Button>
+    <>
+      <Button
+        onClick={() => unsubscribe()}
+        isLoading={isUnsubLoading}
+        className="w-full mt-1 mb-4"
+      >
+        Leave community
+      </Button>
+      <Link
+        href={`r/${subredditName}/submit`}
+        className={buttonVariants({
+          variant: "outline",
+          className: "w-full mb-6",
+        })}
+      >
+        Create Post
+      </Link>
+    </>
   ) : (
     <Button
       onClick={() => {
